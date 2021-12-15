@@ -6,8 +6,10 @@
   :dependencies [
                  [org.clojure/clojure "1.10.1"]
 
-                 ; Jetty
-                 [ring/ring-jetty-adapter "1.7.1"]
+                 ;; Jetty
+                 ;[ring/ring-jetty-adapter "1.7.1"]
+
+                 [http-kit "2.5.0"]
 
                  ;ring
                  [ring/ring-core "1.7.1"]

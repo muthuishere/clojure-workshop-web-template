@@ -9,6 +9,7 @@
                  ;; Jetty
                  ;[ring/ring-jetty-adapter "1.7.1"]
 
+                 ;http-kit
                  [http-kit "2.5.0"]
 
                  ;ring

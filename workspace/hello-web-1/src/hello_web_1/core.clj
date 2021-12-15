@@ -60,6 +60,19 @@
             }
    }
   )
+(defn multiply [body]
+
+  (apply * (vals body))
+
+  )
+(defn handle-multiplication [{:keys [body]}]
+  {
+   :status 200
+   :body   {
+            :result (multiply body)
+            }
+   }
+  )
 
 ; product of n numbers
 ;{
@@ -87,6 +100,7 @@
 
            (POST "/insertdata" request insert-data)
            (POST "/add" request handle-add)
+           (POST "/product" request handle-multiplication)
            (route/not-found "Url Not found")
 
            )

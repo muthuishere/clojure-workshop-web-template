@@ -1,12 +1,15 @@
 (ns hello-web-1.core
   (:require
-    [compojure.core :refer :all]
+    ;[compojure.core :refer :all]
+    [compojure.api.sweet :as sw]
     [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
     [ring.middleware.json :as middleware]
     ;[ring.adapter.jetty :refer :all]
     [org.httpkit.server :refer [run-server]]
 
     [compojure.route :as route]
+
+    [hello-web-1.movies.handler :refer :all]
     )
   )
 (defn insert-data [request]
@@ -65,11 +68,13 @@
   (apply * (vals body))
 
   )
-(defn handle-multiplication [{:keys [body]}]
+(defn handle-multiplication [request]
+
+  (print request)
   {
    :status 200
    :body   {
-            :result (multiply body)
+            :result (multiply (get request :body-params))
             }
    }
   )
@@ -83,27 +88,27 @@
 
 ; he result
 ;{ result 24}
-
-(defroutes app-routes
-
-           (GET "/hello" request (fn [request]
-                                   "Hello Clojure Web API with Lein"
-                                   ))
-
-           (GET "/hello/:name" request (fn [request]
-                                         (println request)
-                                         (str "Welcome " (get-in request [:params :name]))
-                                         )
-
-                                       )
-
-
-           (POST "/insertdata" request insert-data)
-           (POST "/add" request handle-add)
-           (POST "/product" request handle-multiplication)
-           (route/not-found "Url Not found")
-
-           )
+;
+;(defroutes app-routes
+;
+;           (GET "/hello" request (fn [request]
+;                                   "Hello Clojure Web API with Lein"
+;                                   ))
+;
+;           (GET "/hello/:name" request (fn [request]
+;                                         (println request)
+;                                         (str "Welcome " (get-in request [:params :name]))
+;                                         )
+;
+;                                       )
+;
+;
+;           (POST "/insertdata" request insert-data)
+;           (POST "/add" request handle-add)
+;           (POST "/product" request handle-multiplication)
+;           (route/not-found "Url Not found")
+;
+;           )
 
 ; Home Assignment
 ; A Post Request /add
@@ -132,12 +137,19 @@
                )
 
   )
+
+
+
 (def app
-  (-> app-routes
-      (middleware/wrap-json-body  {:keywords? true})
-      (middleware/wrap-json-response)
-      (wrap-defaults api-defaults)
-      )
+  (sw/api
+
+    (sw/GET "/api/movies" request handle-all-movies)
+    (sw/GET "/api/movies/:id" request handle-movie-by-id)
+    (sw/POST "/api/movies" request handle-insert-movie)
+    (sw/PUT "/api/movies/:id" request handle-update-movie)
+    (sw/DELETE "/api/movies/:id" request handle-delete-movie-by-id)
+    )
+
   )
 
 

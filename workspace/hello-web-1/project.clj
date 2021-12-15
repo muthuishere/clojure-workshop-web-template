@@ -19,7 +19,9 @@
 
 
                  ;compojure
-                 [compojure "1.6.1"]
+                 ;[compojure "1.6.1"]
+                 [metosin/compojure-api "1.1.13"]
+                 [metosin/ring-http-response "0.9.3"]
 
                  ]
   :repl-options {:init-ns hello-web-1.core}

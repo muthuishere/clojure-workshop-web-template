@@ -9,13 +9,67 @@
    }
   )
 
+
+
+;Exercise
 (defn handle-movie-by-id [request]
 
+
+  (let [
+        id (Integer/parseInt (get-in request [:params :id]))
+        result (movie-service/movie-by-id id)]
+
+    (if result
+      {
+       :status 200
+       :body   result
+       }
+      {:status 404
+       :body   "Invalid Movie ID"
+       }
+      )
+
+    )
+
   )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 (defn handle-insert-movie [request]
 
   )
+
+
+
+
+
+
+
+
 
 (defn handle-update-movie [request]
 

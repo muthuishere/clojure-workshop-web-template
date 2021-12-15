@@ -49,12 +49,72 @@
 (defn all-movies []
   @movies
   )
-(defn movie-by-id [id]
 
+
+
+
+(comment
+
+  (->> @movies
+       (filter #(= 1 (get % :id)))
+       first
+       )
+
+ (first  @movies)
+
+  (movie-by-id 7872832)
   )
+;Exercise
+(defn movie-by-id [id]
+  (->> @movies
+       (filter #(= id (get % :id)))
+       (first)
+       )
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (defn insert-movie [movie]
 
   )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 (defn update-movie [id movie]
 

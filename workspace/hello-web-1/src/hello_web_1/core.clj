@@ -14,7 +14,7 @@
   {
    :status 200
    :body {
-          :result (str "Created Successfully for" (get-in request [:body :name]))
+          :result (str " function Created Successfully for" (get-in request [:body :name]))
 
           }
 
@@ -22,6 +22,23 @@
 
    }
   )
+
+(defn res-ok [message] {:status 200 :body {:result message}})
+
+(defn add [{:keys [a b]}]
+  (+ a b)
+  )
+
+(defn handle-add [{:keys [body]}]
+  {
+   :status 200
+   :body {
+          :result (add body)
+          }
+   }
+  )
+
+
 (defroutes app-routes
 
   (GET "/hello" request (fn [request]
@@ -38,11 +55,12 @@
                                )
 
 
-           (POST "/insertdata" request  (fn [request]
+       (POST "/insertdata" request       insert-data    )
 
-                                          (insert-data request)
-                                          )
-                                        )
+
+           ;
+
+           (POST "/add" request handle-add)
 
 
 
@@ -62,13 +80,11 @@
 ;{
 ; "result" : 68
 ; }
+
 (def app (wrap-defaults
-
-
            (middleware/wrap-json-response
              (middleware/wrap-json-body app-routes {:keywords? true})
              )
-
            api-defaults))
 
 

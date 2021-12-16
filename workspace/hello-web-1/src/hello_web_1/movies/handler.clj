@@ -33,11 +33,38 @@
 
   )
 
-(defn handle-insert-movie [request]
+
+
+
+
+(defn handle-insert-movie [{:keys [body-params]}]
+  (println body-params)
+  {
+   :status 201
+   :body   (movie-service/insert-movie body-params)
+   }
 
   )
 
+
+
+
+;Exercise do update
+;movies/:id
+; Body Holds the update response
 (defn handle-update-movie [request]
+(println request)
+
+  (let [
+        id  (Integer/parseInt (get-in request [:params :id]))
+        data (get request :body-params)
+        ]
+
+    {
+     :status 200
+     :body (movie-service/update-movie id data)
+     }
+    )
 
   )
 

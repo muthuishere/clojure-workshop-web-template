@@ -75,49 +75,56 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 (defn insert-movie [movie]
-
+  (swap! movies conj movie)
+  movie
   )
 
 
+(comment
+
+  (update-movie 1 {:plot
+                   "#9 Modified Plot again",
+                   :director "Tim Burton",
+                   :genres   ["Comedy" "Fantasy"],
+                   :title    "Beetlejuice",
+                   :year     "1988",
+                   :actors   "Alec Baldwin, Geena Davis, Annie McEnroe, Maurice Page",
+                   :id       1,
+                   :runtime  "92",
+                   :posterUrl
+                   "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUwODE3MDE0MV5BMl5BanBnXkFtZTgwNTk1MjI4MzE@._V1_SX300.jpg"}
+                )
+
+
+  (println (:plot (movie-by-id 1)) )
+  )
+
+(defn is-same-movie-id [id movie]
+  (= id (get movie :id))
+  )
+
+(defn get-updated-movie-if-same-id [id  movie-to-be-updated movie]
+
+  (if (is-same-movie-id id movie)
+    (merge movie movie-to-be-updated)
+    movie)
+  )
+(defn update-movies-in [all-movies id movie-to-be-updated]
+
+  (let [partial-update-function (partial get-updated-movie-if-same-id id  movie-to-be-updated)]
+
+    (->> all-movies
+         (map  partial-update-function)
+         )
+
+    )
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-(defn update-movie [id movie]
-
+  )
+(defn update-movie [id movie-to-be-updated]
+  (swap! movies update-movies-in  id movie-to-be-updated)
   )
 
 (defn delete-movie [id]

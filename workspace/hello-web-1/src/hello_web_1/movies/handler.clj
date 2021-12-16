@@ -33,43 +33,9 @@
 
   )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 (defn handle-insert-movie [request]
 
   )
-
-
-
-
-
-
-
-
 
 (defn handle-update-movie [request]
 

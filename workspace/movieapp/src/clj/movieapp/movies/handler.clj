@@ -1,5 +1,5 @@
-(ns hello-web-1.movies.handler
-  (:require [hello-web-1.movies.service :as movie-service])
+(ns movieapp.movies.handler
+  (:require [movieapp.movies.service :as movie-service])
   )
 
 

@@ -1,4 +1,4 @@
-(ns hello-web-1.movies.service)
+(ns movieapp.movies.service)
 
 (def movies (atom [{:plot
                     "A couple of recently deceased ghosts contract the services of a \"bio-exorcist\" in order to remove the obnoxious new owners of their house.",
@@ -46,6 +46,10 @@
                     "https://images-na.ssl-images-amazon.com/images/M/MV5BMTg0MTU1MTg4NF5BMl5BanBnXkFtZTgwMDgzNzYxMTE@._V1_SX300.jpg"}]
                   )  )
 
+
+(comment
+  (count @movies)
+  )
 (defn all-movies []
   @movies
   )

@@ -15,8 +15,9 @@
 (defn handle-movie-by-id [request]
 
 
+  (println request)
   (let [
-        id (Integer/parseInt (get-in request [:params :id]))
+        id (Integer/parseInt (get-in request [:path-params :id]))
         result (movie-service/movie-by-id id)]
 
     (if result
@@ -56,7 +57,7 @@
 (println request)
 
   (let [
-        id  (Integer/parseInt (get-in request [:params :id]))
+        id  (Integer/parseInt (get-in request [:path-params :id]))
         data (get request :body-params)
         ]
 
@@ -72,7 +73,7 @@
 ; Implement Delete By ID
 (defn handle-delete-movie-by-id [request]
   (let [
-        id  (Integer/parseInt (get-in request [:params :id]))
+        id  (Integer/parseInt (get-in request [:path-params :id]))
 
         ]
 

@@ -10,10 +10,65 @@
     [movieapp.middleware.formats :as formats]
     [ring.util.http-response :refer :all]
     [movieapp.movies.handler :refer :all]
+    [schema.core :as s]
+    [clojure.spec.alpha :as spec]
+    [spec-tools.core :as spec-core]
     [clojure.java.io :as io]))
 
+;(defn is-production []
+;
+;  )
+
+; {
+;      "id": 145,
+;      "title": "A Separation",
+;      "year": "2011",
+;      "runtime": "123",
+;      "genres": [
+;        "Drama",
+;        "Mystery"
+;      ],
+;      "director": "Asghar Farhadi",
+;      "actors": "Peyman Moaadi, Leila Hatami, Sareh Bayat, Shahab Hosseini",
+;      "plot": "A married couple are faced with a difficult decision - to improve the life of their child by moving to another country or to stay in Iran and look after a deteriorating parent who has Alzheimer's disease.",
+;      "posterUrl": "http://ia.media-imdb.com/images/M/MV5BMTYzMzU4NDUwOF5BMl5BanBnXkFtZTcwMTM5MjA5Ng@@._V1_SX300.jpg"
+;    }
+
+(defn create-spec [data-type default-value]
+  (spec-core/spec
+    {
+     :spec data-type
+     :swagger/default default-value
+     }
+    )
+
+  )
+;InsertMovieRequest
+(s/defschema InsertMovieRequest
+  {
+   :id (create-spec int? "247")
+   :title (spec-core/spec
+            {
+             :spec string?
+             :swagger/default "A Separation"
+             }
+            )
+   :genres (spec-core/spec
+             {
+              :spec (spec/coll-of string?)
+              :swagger/default ["Drama" "Mystery"]
+              }
+             )
+   }
+
+  )
 (defn movie-routes []
-  [""
+  ["" {:no-doc false
+       :swagger {
+
+                 :tags ["movies"]
+                 }
+       }
    ["/movies" {
 
                :get {
@@ -23,7 +78,42 @@
                :post {
 
                       :handler handle-insert-movie
+                      :parameters {
+
+                                   :body InsertMovieRequest
+                                   }
                       }
+               }
+    ]
+
+   ["/movies/:id" {
+
+               :get {
+                     :handler handle-movie-by-id
+                     :parameters {
+
+                                  :path {:id int?}
+                                  }
+
+                     }
+
+               :put {
+                      :handler handle-update-movie
+                     :parameters {
+
+                                  :path {:id int?}
+                                  }
+                      }
+
+               :delete {
+                  :handler handle-delete-movie-by-id
+                        :parameters {
+
+                                     :path {:id int?}
+                                     }
+                  }
+
+
                }
     ]
 

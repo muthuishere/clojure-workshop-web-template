@@ -55,5 +55,7 @@
     (log/info component "started"))
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
+; Runtime.getRumtime().addShutDownHook(new Thread(){})
+
 (defn -main [& args]
   (start-app args))

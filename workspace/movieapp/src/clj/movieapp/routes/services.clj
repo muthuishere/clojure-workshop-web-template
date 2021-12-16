@@ -43,22 +43,20 @@
     )
 
   )
+
+(defn create-string-with [default-value]
+  (create-spec string? default-value)
+
+  )
 ;InsertMovieRequest
 (s/defschema InsertMovieRequest
   {
    :id (create-spec int? "247")
-   :title (spec-core/spec
-            {
-             :spec string?
-             :swagger/default "A Separation"
-             }
-            )
-   :genres (spec-core/spec
-             {
-              :spec (spec/coll-of string?)
-              :swagger/default ["Drama" "Mystery"]
-              }
-             )
+   :title (create-string-with "A Separation")
+   :year (create-string-with "2011")
+   :runtime (create-string-with "123")
+   :genres (create-spec (spec/coll-of string?) ["Drama" "Mystery"])
+
    }
 
   )

@@ -1,5 +1,6 @@
 (ns movieapp.movies.service
-  (:require [movieapp.db.core :as db])
+  (:require [movieapp.db.core :as db]
+            [clojure.tools.logging :as log])
   )
 
 (def movies (atom [{:plot
@@ -112,6 +113,8 @@
 ;Exercise What if Iam going to give existing ID
 (comment
 
+  ;Exercise
+  ; What would be the error  & how to solve this error
   (insert-movie {:plot
                  "#9 Modified Plot again",
                  :director "Tim Burton",
@@ -131,7 +134,16 @@
   (let [
         movie-to-be-inserted (convert-genres-to-string movie)
         ]
-    (db/insert-movie! movie-to-be-inserted)
+    (try
+
+      (db/insert-movie! movie-to-be-inserted)
+
+       (catch Exception e
+         (log/error e)
+         nil
+         )
+       )
+
     )
 
   )

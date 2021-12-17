@@ -38,12 +38,31 @@
 
 
 
-(defn handle-insert-movie [{:keys [body-params]}]
-  (println body-params)
-  {
-   :status 201
-   :body   (movie-service/insert-movie body-params)
-   }
+(defn handle-insert-movie [request]
+
+
+  (let
+
+    [
+     data (get request :body-params)
+     result (movie-service/insert-movie data)]
+
+
+    (if (not (nil? result))
+      {
+       :status 200
+       ; Always use map or string for a body ;
+       :body  {
+               :result result
+               }
+       }
+      {:status 404
+       :body   "Could not Insert Movie"
+       }
+      )
+
+    )
+
 
   )
 

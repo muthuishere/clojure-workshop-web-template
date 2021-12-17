@@ -12,4 +12,4 @@
           :stop (conman/disconnect! *db*)
           )
 
-(conman/bind-connection *db* "sql/movies.sql")
+(conman/bind-connection *db* "sql/movies.sql" "sql/users.sql" )

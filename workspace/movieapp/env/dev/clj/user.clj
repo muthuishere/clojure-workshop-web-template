@@ -6,7 +6,10 @@
     [clojure.spec.alpha :as s]
     [expound.alpha :as expound]
     [mount.core :as mount]
-    [movieapp.core :refer [start-app]]))
+    [movieapp.core :refer [start-app]]
+    [luminus-migrations.core :as migrations]
+    [conman.core :as conman]
+   ))
 
 (alter-var-root #'s/*explain-out* (constantly expound/printer))
 
@@ -30,3 +33,9 @@
   (start))
 
 
+(defn create-migration [name]
+  (migrations/create name (select-keys env [:database-url]))
+  )
+(defn migrate []
+  (migrations/migrate ["migrate"]  (select-keys env [:database-url]))
+  )

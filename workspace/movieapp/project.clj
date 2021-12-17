@@ -28,7 +28,16 @@
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.9.4"]
                  [ring/ring-defaults "0.3.3"]
-                 [selmer "1.12.45"]]
+                 [selmer "1.12.45"]
+
+                 ;Database Driver
+                 [com.h2database/h2 "1.4.200"]
+                 ;[postgresql "9.3-1102.jdbc41"]
+                 [conman "0.9.1"]
+                 [luminus-migrations "0.7.1"]
+
+
+                 ]
 
   :min-lein-version "2.0.0"
   

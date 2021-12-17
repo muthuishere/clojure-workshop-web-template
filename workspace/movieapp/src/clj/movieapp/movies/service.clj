@@ -1,4 +1,6 @@
-(ns movieapp.movies.service)
+(ns movieapp.movies.service
+  (:require [movieapp.db.core :as db])
+  )
 
 (def movies (atom [{:plot
                     "A couple of recently deceased ghosts contract the services of a \"bio-exorcist\" in order to remove the obnoxious new owners of their house.",
@@ -51,7 +53,7 @@
   (count @movies)
   )
 (defn all-movies []
-  @movies
+  (db/get-all-movies)
   )
 
 

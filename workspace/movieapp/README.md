@@ -1,21 +1,23 @@
-# movieapp
 
-generated using Luminus version "4.27"
 
-FIXME
+####HugSql Syntax
 
-## Prerequisites
 
-You will need [Leiningen][1] 2.0 or above installed.
+```sql
 
-[1]: https://github.com/technomancy/leiningen
 
-## Running
+-- The following command flags are available:
+--
+-- :? - query with a result-set (default)
+-- :! - any statement
+-- :<! - support for INSERT ... RETURNING
+-- :i! - support for insert and jdbc .getGeneratedKeys
+-- The result flags are:
+--
+-- :1 - one row as a hash-map
+-- :* - many rows as a vector of hash-maps
+-- :n - number of rows affected (inserted/updated/deleted)
+-- :raw - passthrough an untouched result (default)
 
-To start a web server for the application, run:
 
-    lein run 
-
-## License
-
-Copyright © 2021 FIXME
+```

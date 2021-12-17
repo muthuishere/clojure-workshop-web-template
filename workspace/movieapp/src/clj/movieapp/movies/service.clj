@@ -46,14 +46,39 @@
                     :runtime  "97",
                     :posterUrl
                     "https://images-na.ssl-images-amazon.com/images/M/MV5BMTg0MTU1MTg4NF5BMl5BanBnXkFtZTgwMDgzNzYxMTE@._V1_SX300.jpg"}]
-                  )  )
+                  ))
 
 
 (comment
   (count @movies)
+  (all-movies)
   )
+
+(defn update-genre-with [genres movie]
+  (assoc movie :genres genres)
+  )
+(defn convert-genres-to-array [movie]
+
+  (-> (movie :genres)
+      (clojure.string/split #",")
+      (update-genre-with movie)
+      )
+
+  )
+
+(defn convert-genres-to-string [movie]
+
+  (->> (movie :genres)
+       (clojure.string/join ",")
+       (assoc movie :genres)
+       )
+
+  )
+
+
+;Exercise convert Genres to array and send back as part of response
 (defn all-movies []
-  (db/get-all-movies)
+  (map convert-genres-to-array (db/get-all-movies))
   )
 
 
@@ -66,24 +91,49 @@
        first
        )
 
- (first  @movies)
+  (first @movies)
 
   (movie-by-id 7872832)
   )
+
+(comment
+
+  (movie-by-id 1)
+  )
 ;Exercise
 (defn movie-by-id [id]
-  (->> @movies
-       (filter #(= id (get % :id)))
-       (first)
-       )
+
+  (-> (db/get-movie-by-id {:id id})
+      (convert-genres-to-array)
+      )
+
   )
 
+;Exercise What if Iam going to give existing ID
+(comment
 
-
+  (insert-movie {:plot
+                 "#9 Modified Plot again",
+                 :director "Tim Burton",
+                 :genres   ["Comedy" "Fantasy"],
+                 :title    "Beetlejuice",
+                 :year     "1988",
+                 :actors   "Alec Baldwin, Geena Davis, Annie McEnroe, Maurice Page",
+                 :id       1,
+                 :runtime  "92",
+                 :posterUrl
+                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUwODE3MDE0MV5BMl5BanBnXkFtZTgwNTk1MjI4MzE@._V1_SX300.jpg"
+                 })
+  )
 
 (defn insert-movie [movie]
-  (swap! movies conj movie)
-  movie
+
+  (let [
+        movie-to-be-inserted (convert-genres-to-string movie)
+        ]
+    (db/insert-movie! movie-to-be-inserted)
+    )
+
   )
 
 
@@ -99,18 +149,19 @@
                    :id       1,
                    :runtime  "92",
                    :posterUrl
-                   "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUwODE3MDE0MV5BMl5BanBnXkFtZTgwNTk1MjI4MzE@._V1_SX300.jpg"}
+                   "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUwODE3MDE0MV5BMl5BanBnXkFtZTgwNTk1MjI4MzE@._V1_SX300.jpg"
+                   }
                 )
 
 
-  (println (:plot (movie-by-id 1)) )
+  (println (:plot (movie-by-id 1)))
   )
 
 (defn is-same-movie-id [id movie]
   (= id (get movie :id))
   )
 
-(defn get-updated-movie-if-same-id [id  movie-to-be-updated movie]
+(defn get-updated-movie-if-same-id [id movie-to-be-updated movie]
 
   (if (is-same-movie-id id movie)
     (merge movie movie-to-be-updated)
@@ -118,29 +169,46 @@
   )
 (defn update-movies-in [all-movies id movie-to-be-updated]
 
-  (let [partial-update-function (partial get-updated-movie-if-same-id id  movie-to-be-updated)]
+  (let [partial-update-function (partial get-updated-movie-if-same-id id movie-to-be-updated)]
 
     (->> all-movies
-         (map  partial-update-function)
+         (map partial-update-function)
          )
 
     )
 
-
-
   )
 (defn update-movie [id movie-to-be-updated]
-  (swap! movies update-movies-in  id movie-to-be-updated)
+  (swap! movies update-movies-in id movie-to-be-updated)
   )
 
 (comment
   (delete-movie 1)
-  (println (:plot (movie-by-id 1)) )
+  (println (:plot (movie-by-id 1)))
   )
 (defn delete-movie [id]
   (->> @movies
        (remove #(= (:id %) id))
-       (reset! movies )
+       (reset! movies)
        )
+
+  )
+
+
+
+(comment
+
+  (convert-genres-to-string {:plot
+                             "#9 Modified Plot again",
+                             :director "Tim Burton",
+                             :genres   ["Comedy" "Fantasy"],
+                             :title    "Beetlejuice",
+                             :year     "1988",
+                             :actors   "Alec Baldwin, Geena Davis, Annie McEnroe, Maurice Page",
+                             :id       1,
+                             :runtime  "92",
+                             :posterUrl
+                             "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUwODE3MDE0MV5BMl5BanBnXkFtZTgwNTk1MjI4MzE@._V1_SX300.jpg"
+                             })
 
   )

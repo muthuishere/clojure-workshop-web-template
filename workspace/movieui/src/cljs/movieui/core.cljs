@@ -96,3 +96,6 @@
 ; Create a remote repl , with .nrepl port available under shadowcljs
 ; start the repl
 
+
+;Run the following command to connect to the browser
+;(shadow/repl :app )                                         ;

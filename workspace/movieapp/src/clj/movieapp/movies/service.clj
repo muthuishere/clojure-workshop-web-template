@@ -67,6 +67,9 @@
 
   )
 
+;Home Assignment
+; Complete the Users Registration and login
+
 (defn convert-genres-to-string [movie]
 
   (->> (movie :genres)

@@ -87,6 +87,7 @@
     <orderEntry type="library" name="Leiningen: javax.xml.bind/jaxb-api:2.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: joda-time:2.10" level="project" />
     <orderEntry type="library" name="Leiningen: json-html:0.4.7" level="project" />
+    <orderEntry type="library" name="Leiningen: jumblerg/ring-cors:2.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: lambdaisland/deep-diff:0.0-47" level="project" />
     <orderEntry type="library" name="Leiningen: luminus-migrations:0.7.1" level="project" />
     <orderEntry type="library" name="Leiningen: luminus-transit:0.1.3" level="project" />

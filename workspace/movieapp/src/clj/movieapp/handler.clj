@@ -7,6 +7,7 @@
     [ring.middleware.content-type :refer [wrap-content-type]]
     [ring.middleware.webjars :refer [wrap-webjars]]
     [movieapp.env :refer [defaults]]
+    [jumblerg.middleware.cors :refer [wrap-cors]]
     [mount.core :as mount]))
 
 (mount/defstate init-app
@@ -27,4 +28,4 @@
       (ring/create-default-handler))))
 
 (defn app []
-  (middleware/wrap-base #'app-routes))
+  (middleware/wrap-base (wrap-cors #'app-routes #".*") ))

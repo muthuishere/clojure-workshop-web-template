@@ -6,6 +6,9 @@
     [re-frame.core :as rf]
     [goog.events :as events]
     [goog.history.EventType :as HistoryEventType]
+    [movieui.movies.list-movie-page :refer [list-movies-component]]
+
+    [movieui.movies.list-movie-events]
     [markdown.core :refer [md->html]]
     [movieui.ajax :as ajax]
     [movieui.events]
@@ -16,24 +19,25 @@
 
 (defn nav-link [uri title page]
   [:a.navbar-item
-   {:href   uri
+   {:href  uri
     :class (when (= page @(rf/subscribe [:common/page-id])) :is-active)}
    title])
 
-(defn navbar [] 
+(defn navbar []
   (r/with-let [expanded? (r/atom false)]
               [:nav.navbar.is-info>div.container
                [:div.navbar-brand
                 [:a.navbar-item {:href "/" :style {:font-weight :bold}} "movieui"]
                 [:span.navbar-burger.burger
                  {:data-target :nav-menu
-                  :on-click #(swap! expanded? not)
-                  :class (when @expanded? :is-active)}
-                 [:span][:span][:span]]]
+                  :on-click    #(swap! expanded? not)
+                  :class       (when @expanded? :is-active)}
+                 [:span] [:span] [:span]]]
                [:div#nav-menu.navbar-menu
                 {:class (when @expanded? :is-active)}
                 [:div.navbar-start
                  [nav-link "#/" "Home" :home]
+                 [nav-link "#/movies" "Movies" :listmovies]
                  [nav-link "#/about" "About" :about]]]]))
 
 (defn about-page []
@@ -60,7 +64,15 @@
            :view        #'home-page
            :controllers [{:start (fn [_] (rf/dispatch [:page/init-home]))}]}]
      ["/about" {:name :about
-                :view #'about-page}]]))
+                :view #'about-page}]
+
+     ["/movies" {:name :listmovies
+                 :view #'list-movies-component}]
+
+
+     ]
+
+    ))
 
 (defn start-router! []
   (rfe/start!
@@ -84,10 +96,10 @@
 
 ;To Watch App
 
-  ;lein run -m shadow.cljs.devtools.cli watch app
+;lein run -m shadow.cljs.devtools.cli watch app
 
 ; Run the Ui Server
-  ;lein run
+;lein run
 
 ; Open the browser
 ; http://localhost:3000

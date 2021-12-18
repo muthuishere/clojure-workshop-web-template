@@ -39,7 +39,7 @@
                  ;Authentication
                  [buddy/buddy-auth "3.0.1"]
                  [clj-time "0.15.2"]
-
+[jumblerg/ring-cors "2.0.0"]
                  ]
 
   :min-lein-version "2.0.0"

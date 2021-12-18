@@ -5,6 +5,7 @@
     [clj-time.core :as time]
     [buddy.auth.middleware :refer [wrap-authentication]]
     [buddy.auth.backends :as backends]
+    [buddy.auth :refer [authenticated?]]
 
     )
   )
@@ -28,12 +29,41 @@
   )
 (defn only-logged-in-user [handler]
   (fn [request]
-    (if (nil? (get request :identity) )
-      {:status 401 :body {:error "Should be logged in with Bearer token to use this api"}}
+    ;    (if (nil? (get request :identity))
+      (if (authenticated? request)
+        (handler request)
+        {:status 401 :body {:error "Should be logged in with Bearer token to use this api"}}
+        )
+      )
+    )
+
+; {:identity : {:first_name user, :last_name lastname, :email user@gmail.com, :admin false, :exp 1639829260} }
+(comment
+
+  (def request-user {:identity  {:first_name "user", :last_name "lastname", :email "user@gmail.com", :admin false, :exp 1639829260} })
+  (def request-admin {:identity  {:first_name "user", :last_name "lastname", :email "user@gmail.com", :admin true, :exp 1639829260} })
+  (def request-empty {})
+
+
+  (boolean (get-in request-user [:identity :admin] ))
+  (boolean (get-in request-empty [:identity :admin] ))
+  (boolean (get-in request-admin [:identity :admin] ))
+
+  )
+
+
+(defn is-admin? [request]
+  (boolean (get-in request [:identity :admin] ))
+  )
+(defn only-logged-in-admin [handler]
+  (fn [request]
+    (if (is-admin? request  )
       (handler request)
+      {:status 401 :body {:error "Should be an admin to use this functionality" }}
       )
     )
   )
+
 
 
 ;:jwt-secret

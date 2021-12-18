@@ -3,7 +3,7 @@
             [schema.core :as s]
             [movieapp.shared.schema-creator :refer :all]
             [clojure.spec.alpha :as spec]
-            [movieapp.users.auth :refer [wrap-jwt-authentication only-logged-in-user]]
+            [movieapp.users.auth :refer [wrap-jwt-authentication only-logged-in-user only-logged-in-admin]]
             )
   )
 
@@ -42,6 +42,12 @@
    ["/users" {
 
                :get {
+                     :middleware [wrap-jwt-authentication only-logged-in-user]
+                     :swagger {
+                               :security [
+                                          {:apiAuth []}
+                                          ]
+                               }
                      :handler handle-all-users
                      }
 
@@ -80,7 +86,7 @@
    ["/users/registeradmin" {
 
                :post {
-                      :middleware [wrap-jwt-authentication only-logged-in-user]
+                      :middleware [wrap-jwt-authentication only-logged-in-admin]
                       :swagger {
                                 :security [
                                            {:apiAuth []}

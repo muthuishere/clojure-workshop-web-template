@@ -1,11 +1,11 @@
 ;; WARNING
 ;; The dev-config.edn file is used for local environment variables, such as database credentials.
 ;; This file is listed in .gitignore and will be excluded from version control by Git.
-
+; For front end conflict fix change ports
 {:dev true
- :port 3000
+ :port 4200
  ;; when :nrepl-port is set the application starts the nREPL server on load
- :nrepl-port 7000
+ :nrepl-port 8000
  :database-url "jdbc:h2:./movieapp.db;AUTO_SERVER=TRUE"
  :jwt-secret "somesecretkey"
  }

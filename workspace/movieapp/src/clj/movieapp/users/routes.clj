@@ -3,6 +3,7 @@
             [schema.core :as s]
             [movieapp.shared.schema-creator :refer :all]
             [clojure.spec.alpha :as spec]
+            [movieapp.users.auth :refer [wrap-jwt-authentication only-logged-in-user]]
             )
   )
 
@@ -35,6 +36,9 @@
                  :tags ["users"]
                  }
        }
+
+   ; Exercise
+   ; AllUsers should be available only for logged in users
    ["/users" {
 
                :get {
@@ -69,9 +73,19 @@
 
                }
     ]
+
+   ; Exercise
+   ; registeradmin should be available only for logged in admins
+   ; create a new middleware only-logged-in-admin
    ["/users/registeradmin" {
 
                :post {
+                      :middleware [wrap-jwt-authentication only-logged-in-user]
+                      :swagger {
+                                :security [
+                                           {:apiAuth []}
+                                           ]
+                                }
                      :handler handle-register-admin
                       :parameters {
                                    :body RegisterUserRequest

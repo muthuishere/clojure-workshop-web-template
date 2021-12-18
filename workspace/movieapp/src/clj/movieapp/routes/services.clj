@@ -24,7 +24,17 @@
   ["/api"
    {:coercion spec-coercion/coercion
     :muuntaja formats/instance
-    :swagger {:id ::api}
+    :swagger {:id ::api
+
+              :securityDefinitions {
+                                    :apiAuth
+                                      {
+                                       :type "apiKey"
+                                       :name "Authorization"
+                                       :in "header"
+                                       }
+                                    }
+              }
     :middleware [;; query-params & form-params
                  parameters/parameters-middleware
                  ;; content-negotiation

@@ -36,6 +36,9 @@
                  [conman "0.9.1"]
                  [luminus-migrations "0.7.1"]
 
+                 ;Authentication
+                 [buddy/buddy-auth "3.0.1"]
+                 [clj-time "0.15.2"]
 
                  ]
 

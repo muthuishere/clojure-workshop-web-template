@@ -7,4 +7,5 @@
  ;; when :nrepl-port is set the application starts the nREPL server on load
  :nrepl-port 7000
  :database-url "jdbc:h2:./movieapp.db;AUTO_SERVER=TRUE"
+ :jwt-secret "somesecretkey"
  }
